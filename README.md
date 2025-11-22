@@ -1,2 +1,1 @@
-# rendszerfejlesztes2025_c
-Rendszerfejlesztés C - csoport
+# webshop_barbie
