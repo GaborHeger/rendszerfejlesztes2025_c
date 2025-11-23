@@ -1,7 +1,8 @@
-﻿using webshop_barbie.Models;
-using webshop_barbie.Repository.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using webshop_barbie.Data;
+using webshop_barbie.DTOs;
+using webshop_barbie.Models;
+using webshop_barbie.Repository.Interfaces;
 
 namespace webshop_barbie.Repository
 {
@@ -14,10 +15,26 @@ namespace webshop_barbie.Repository
             _context = context;
         }
 
+        public async Task<string> PlaceOrder(OrderRequestDTO orderRequest, int userId)
+        {
+            await Task.Delay(100); // szimulál egy aszinkron műveletet
+            return "Order placed successfully!";
+        }
+
         public async Task<IEnumerable<Order>> GetByUserIdAsync(int userId)
         {
             return await _context.Orders
                 .Where(o => o.UserId == userId)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<OrderItem>> GetByOrderIdAsync(int orderId)
+        {
+            return await _context.OrderItems
+                .Include(oi => oi.Product) //Product adatokat is betölti
+                .Where(oi => oi.OrderId == orderId)
                 .ToListAsync();
         }
 

@@ -79,5 +79,22 @@ namespace webshop_barbie.Service
             return (isAvailable, product.Stock);
         }
 
+        public async Task DecreaseStockAsync(Order order)
+        {
+            foreach (var item in order.OrderItems)
+            {
+                // lekérjük a terméket az adatbázisból
+                var product = await _repository.GetByIdAsync(item.ProductId);
+
+                if (product == null)
+                    throw new KeyNotFoundException($"A termék azonosítóval {item.ProductId} nem található.");
+
+                // raktárkészlet csökkentése
+                product.Stock -= item.Quantity;
+
+                // jelezzük a módosítást
+                await _repository.UpdateStockAsync(product);
+            }
+        }
     }
 }

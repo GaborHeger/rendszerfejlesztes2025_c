@@ -53,7 +53,6 @@ namespace webshop_barbie.Service
             return user;
         }
 
-
         public async Task<UserDTO> GetUserByEmailAsync(string email)
         {
             var u = await _repository.GetByEmailAsync(email);
@@ -150,10 +149,6 @@ namespace webshop_barbie.Service
 
             //repository hívása
             var updatedUser = await _repository.UpdateUserAsync(user.Id, userDto);
-
-            //ha nincs változás, dobhatunk hibát
-            if (updatedUser == null)
-                throw new ArgumentException("Az adatok nem változtak!");
 
             return userDto;
         }

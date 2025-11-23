@@ -31,6 +31,8 @@ namespace webshop_barbie.Service.Interfaces
         /// <param name="quantity">A kért mennyiség.</param>
         /// <returns>Igaz, ha elegendő készlet van, különben hamis.</returns>
         Task<(bool IsAvailable, int AvailableStock)> CheckStockAsync(int productId, int requestedQuantity);
+
+        Task DecreaseStockAsync(Order order);
     }
 }
 

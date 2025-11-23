@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 using webshop_barbie.Data;
-using webshop_barbie.Service.Interfaces;
-using webshop_barbie.Service;
-using webshop_barbie.Repository.Interfaces;
 using webshop_barbie.Repository;
+using webshop_barbie.Repository.Interfaces;
+using webshop_barbie.Service;
+using webshop_barbie.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,6 +60,57 @@ builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 // Order
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
+// JWT autentikáció hozzáadása
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+        )
+    };
+});
+
+//Swagger konfiguráció JWT támogatással
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Webshop API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header. Írd be: 'Bearer {token}'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -69,6 +124,9 @@ if (app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<WebshopContext>();
+    // Törli az adatbázist
+    await db.Database.EnsureDeletedAsync();
+    // Újra létrehozza a migrációk alapján
     db.Database.Migrate();
     SeedData.Initialize(db);
 }
@@ -85,6 +143,8 @@ app.UseMiddleware<webshop_barbie.Middleware.GlobalExceptionHandlerMiddleware>();
 
 //automatikusan átirányítja a HTTP kéréseket HTTPS-re
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 // Autorizációs middlewares
 app.UseAuthorization();

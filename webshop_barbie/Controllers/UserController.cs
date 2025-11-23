@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using webshop_barbie.DTOs;
 using webshop_barbie.Models;
@@ -17,6 +18,7 @@ namespace webshop_barbie.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpGet("{userId}")]
         public async Task<ActionResult<UserDTO>> GetUserByIdAsync(int userId)
         {

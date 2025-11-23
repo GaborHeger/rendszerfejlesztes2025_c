@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using webshop_barbie.DTOs;
 using webshop_barbie.DTOs.Requests;
 using webshop_barbie.Service.Interfaces;
@@ -16,6 +17,7 @@ namespace webshop_barbie.Controllers
             _cartService = cartService;
         }
 
+        [Authorize]
         [HttpGet("{userId}")]
         public async Task<ActionResult<CartDTO>> GetCartByUserIdAsync(int userId)
         {
@@ -23,6 +25,7 @@ namespace webshop_barbie.Controllers
             return Ok(cart);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<CartDTO>> AddItemToCart(int userId, [FromBody] UpdateCartItemRequestDTO request)
         {
@@ -33,6 +36,7 @@ namespace webshop_barbie.Controllers
             return Ok(updatedCart);
         }
 
+        [Authorize]
         [HttpDelete("{userId}/items/{productId}")]
         public async Task<ActionResult<CartDTO>> RemoveItem(int userId, int productId)
         {
@@ -40,6 +44,7 @@ namespace webshop_barbie.Controllers
             return Ok(updatedCart);
         }
 
+        [Authorize]
         [HttpPut("{userId}/items")]
         public async Task<ActionResult<CartDTO>> UpdateCartItemQuantityAsync(int userId, [FromBody] UpdateCartItemRequestDTO dto)
         {
@@ -47,7 +52,8 @@ namespace webshop_barbie.Controllers
             return Ok(updatedCart);
         }
 
-            [HttpDelete("{userId}")]
+        [Authorize]
+        [HttpDelete("{userId}")]
         public async Task<ActionResult<string>> ClearCartAsync(int userId)
         {
 
