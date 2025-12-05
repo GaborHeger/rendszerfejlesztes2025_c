@@ -14,20 +14,24 @@ namespace webshop_barbie.Repository
             _context = context;
         }
 
+        // Kosárhoz tétel hozzáadása
         public async Task AddAsync(CartItem item)
         {
             await _context.CartItems.AddAsync(item);
             await _context.SaveChangesAsync();
         }
 
+        // Kosár tétel frissítése
         public async Task UpdateAsync(CartItem cartItem)
         {
             _context.CartItems.Update(cartItem);
             await _context.SaveChangesAsync();
         }
 
+        // Kosár tétel törlése ID alapján
         public async Task DeleteAsync(int cartItemId)
         {
+            // Megkeressük a törlendő tételt
             var cartItem = await _context.CartItems.FindAsync(cartItemId);
 
             if(cartItem != null )

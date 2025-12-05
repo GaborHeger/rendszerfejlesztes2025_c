@@ -4,22 +4,13 @@ namespace webshop_barbie.Repository.Interfaces
 {
     public interface ICartItemRepository
     {
-        /// <summary>
-        /// Új elem hozzáadása a kosárhoz.
-        /// </summary>
-        /// <param name="item">A hozzáadandó CartItem.</param>
+        // Kosár tétel hozzáadása
         Task AddAsync(CartItem item);
 
-        /// <summary>
-        /// Meglévő kosár elem frissítése.
-        /// </summary>
-        /// <param name="cartItem">A frissített CartItem.</param>
+        // Kosár tétel frissítése
         Task UpdateAsync(CartItem cartItem);
 
-        /// <summary>
-        /// Kosár elem törlése az ID alapján.
-        /// </summary>
-        /// <param name="cartItemId">A törlendő CartItem azonosítója.</param>
+        // Kosár tétel törlése ID alapján
         Task DeleteAsync(int cartItemId);
     }
 }

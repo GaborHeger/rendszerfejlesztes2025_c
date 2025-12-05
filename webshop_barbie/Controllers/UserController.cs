@@ -29,11 +29,9 @@ namespace webshop_barbie.Controllers
         [HttpGet("by-email")]
         public async Task<ActionResult<UserDTO?>> GetUserByEmailAsync([FromQuery] string email)
         {
-            //üres email esetén 400 Bad Request
             if (string.IsNullOrWhiteSpace(email))
                 return BadRequest("Az email megadása kötelező.");
 
-            //email formátum ellenőrzése
             var emailAttribute = new EmailAddressAttribute();
             if (!emailAttribute.IsValid(email))
                 return BadRequest("Az email formátuma érvénytelen.");

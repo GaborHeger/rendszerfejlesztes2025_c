@@ -15,34 +15,28 @@ namespace webshop_barbie.Middleware
 {
     public class GlobalExceptionHandlerMiddleware
     {
-        // a pipeline következő eleme
         private readonly RequestDelegate _next;
-        //loggoláshoz
+
         private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
 
-        //konstruktor: a pipeline következő elemét és a loggert várja
         public GlobalExceptionHandlerMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlerMiddleware> logger)
         {
             _next = next;
             _logger = logger;
         }
 
-        //invoke metódus: minden request ide fut be
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                // Meghívjuk a pipeline következő elemét (controller vagy más middleware)
                 await _next(context);
             }
             catch (Exception ex)
             {
-                // Ha bármilyen exception történik, ide fut
                 await HandleExceptionAsync(context, ex);
             }
         }
 
-        //hibakezelés metódus
         private Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             //Logolás
@@ -99,13 +93,12 @@ namespace webshop_barbie.Middleware
                     message = fileNotFoundEx.Message;
                     break;
 
-                case Exception e: // minden más exception
+                case Exception e:
                     statusCode = StatusCodes.Status500InternalServerError;
                     message = e.Message;
                     break;
             }
 
-            //válasz JSON formátumban
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;
 

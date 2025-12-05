@@ -23,18 +23,16 @@ namespace webshop_barbie.Service
         // Összes termék lekérése, opcionális kategória szűréssel
         public async Task<IEnumerable<ProductDTO>> GetAllProductsAsync(string? category = null)
         {
-            var query = _repository.GetAll(); // IQueryable<Product>
+            var query = _repository.GetAll();
 
             if (!string.IsNullOrEmpty(category))
             {
-                // Enum konverzió ellenőrzése
                 if (!Enum.TryParse<Category>(category, true, out var categoryEnum))
                     throw new ArgumentException($"A '{category}' kategória nem érvényes.");
 
                 query = query.Where(p => p.Category == categoryEnum);
             }
 
-            // DTO konverzió és lista lekérése aszinkron
             var products = await query
                 .Select(p => new ProductDTO
                 {
@@ -65,7 +63,7 @@ namespace webshop_barbie.Service
             return product.Stock;
         }
 
-        // Ellenőrzi a készletet, és visszaadja, hogy van e elég és, hogy hány termék van
+        // Ellenőrzi, hogy van-e elég készlet a kért mennyiséghez
         public async Task<(bool IsAvailable, int AvailableStock)> CheckStockAsync(int productId, int requestedQuantity)
         {
             var product = await _repository.GetByIdAsync(productId);
@@ -75,24 +73,21 @@ namespace webshop_barbie.Service
 
             bool isAvailable = product.Stock >= requestedQuantity;
 
-            // Nem módosítjuk a stock-ot, csak visszaadjuk az elérhető mennyiséget
             return (isAvailable, product.Stock);
         }
 
+        // Csökkenti az egyes termékek készletét a rendelés mennyisége szerint
         public async Task DecreaseStockAsync(Order order)
         {
             foreach (var item in order.OrderItems)
             {
-                // lekérjük a terméket az adatbázisból
                 var product = await _repository.GetByIdAsync(item.ProductId);
 
                 if (product == null)
                     throw new KeyNotFoundException($"A termék azonosítóval {item.ProductId} nem található.");
 
-                // raktárkészlet csökkentése
                 product.Stock -= item.Quantity;
 
-                // jelezzük a módosítást
                 await _repository.UpdateStockAsync(product);
             }
         }

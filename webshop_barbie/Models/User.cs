@@ -6,25 +6,25 @@ namespace webshop_barbie.Models
     {
         public int Id { get; set; }
 
-        [MaxLength(100, ErrorMessage = "Email cannot exceed 100 characters")]
-        [EmailAddress(ErrorMessage = "Invalid email address")]
+        [MaxLength(100, ErrorMessage = "Az e-mail cím nem haladhatja meg a 100 karaktert!")]
+        [EmailAddress(ErrorMessage = "Érvénytelen e-mail cím!")]
         public string Email { get; set; } = "";
 
-        [MinLength(8, ErrorMessage = "Password must be at least 8 characters long")]
+        [MinLength(8, ErrorMessage = "A jelszónak legalább 8 karakter hosszúnak kell lennie!")]
         public string PasswordHash { get; set; } = "";
 
-        [MaxLength(50, ErrorMessage = "First name cannot exceed 50 characters")]
+        [MaxLength(50, ErrorMessage = "A keresztnév nem lehet hosszabb 50 karakternél!")]
         public string FirstName { get; set; } = "";
 
-        [MaxLength(50, ErrorMessage = "Last name cannot exceed 50 characters")]
+        [MaxLength(50, ErrorMessage = "A vezetéknév nem haladhatja meg az 50 karaktert!")]
         public string LastName { get; set; } = "";
 
-        [Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms")]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "El kell fogadnia a feltételeket!")]
         public bool AcceptedTerms { get; set; }
 
         public bool SubscribedToNewsletter { get; set; }
 
-        [Phone(ErrorMessage = "Invalid phone number")]
+        [Phone(ErrorMessage = "Érvénytelen telefonszám!")]
         public string? PhoneNumber { get; set; }
 
         [MaxLength(20)]

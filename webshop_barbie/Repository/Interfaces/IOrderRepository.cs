@@ -5,27 +5,17 @@ namespace webshop_barbie.Repository.Interfaces
 {
     public interface IOrderRepository
     {
-        Task<string> PlaceOrder(OrderRequestDTO orderRequest, int userId);
 
-        /// <summary>
-        /// Egy adott felhasználó összes rendelésének lekérése.
-        /// </summary>
-        /// <param name="userId">A felhasználó azonosítója.</param>
-        /// <returns>A felhasználó rendeléseinek gyűjteménye.</returns>
+        // Egy felhasználó összes rendelésének lekérése
         Task<IEnumerable<Order>> GetByUserIdAsync(int userId);
 
+        // Egy rendelés összes tételének lekérése
         Task<IEnumerable<OrderItem>> GetByOrderIdAsync(int orderId);
 
-        /// <summary>
-        /// Új rendelés hozzáadása.
-        /// </summary>
-        /// <param name="order">A hozzáadandó rendelés.</param>
+        // Új rendelés hozzáadása
         Task AddAsync(Order order);
 
-        /// <summary>
-        /// Meglévő rendelés törlése.
-        /// </summary>
-        /// <param name="order">A törlendő rendelés.</param>
+        // Rendelés törlése
         Task DeleteAsync(Order order);
     }
 }

@@ -15,11 +15,6 @@ namespace webshop_barbie.Controllers
             _productService = productService;
         }
 
-        /// <summary>
-        /// Összes termék lekérése, opcionális kategória szűréssel
-        /// </summary>
-        /// <param name="category">Opcionális: a termék kategóriája</param>
-        /// <returns>List of ProductDTO</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProducts([FromQuery] string? category = null)
         {

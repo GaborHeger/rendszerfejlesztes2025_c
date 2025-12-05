@@ -29,6 +29,7 @@ namespace webshop_barbie.Service
             _configuration = configuration;
         }
 
+        // Felhasználó lekérése ID alapján
         public async Task<UserDTO> GetUserByIdAsync(int userId)
         {
             var u = await _repository.GetByIdAsync(userId);
@@ -36,7 +37,6 @@ namespace webshop_barbie.Service
             if (u == null)
                 throw new KeyNotFoundException($"A felhasználó ({userId}) nem található.");
 
-            // DTO konverzió
             var user = new UserDTO
             {
                 UserId = u.Id,
@@ -53,6 +53,7 @@ namespace webshop_barbie.Service
             return user;
         }
 
+        // Felhasználó lekérése email alapján
         public async Task<UserDTO> GetUserByEmailAsync(string email)
         {
             var u = await _repository.GetByEmailAsync(email);
@@ -81,14 +82,13 @@ namespace webshop_barbie.Service
             return user;
         }
 
+        // Új felhasználó létrehozása
         public async Task<UserDTO> AddUserAsync(RegisterRequestDTO dto)
         {
-            //E-mail ellenőrzés
             var existingUser = await _repository.GetByEmailAsync(dto.Email);
             if (existingUser != null)
                 throw new ArgumentException("Ez az email már foglalt.");
 
-            //entitás létrehozása
             var user = new User
             {
                 Email = dto.Email,
@@ -98,24 +98,10 @@ namespace webshop_barbie.Service
                 AcceptedTerms = dto.AcceptedTerms
             };
 
-            //jelszó hash-elése
             user.PasswordHash = _passwordHasher.HashPassword(user.Email, dto.Password);
 
-            try
-            {
-                //adatbázisba mentés
-                await _repository.AddAsync(user);
-            }
-            catch (DbUpdateException ex)
-            {
-                Console.WriteLine("----- DB ERROR -----");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.InnerException?.Message);  // EZ A LÉNYEG!
+            await _repository.AddAsync(user);
 
-                throw; // hagyjuk, hogy a globális hibakezelő elkapja
-            }
-
-            //DTO visszaadása
             return new UserDTO
             {
                 UserId = user.Id,
@@ -131,9 +117,9 @@ namespace webshop_barbie.Service
             };
         }
 
+        // Felhasználó adatainak frissítése
         public async Task<UserDTO> UpdateUserAsync(UpdateUserRequestDTO user)
         {
-            //DTO létrehozása a repository számára
             var userDto = new UserDTO
             {
                 UserId = user.Id,
@@ -147,12 +133,12 @@ namespace webshop_barbie.Service
                 AcceptedTerms = user.AcceptedTerms
             };
 
-            //repository hívása
             var updatedUser = await _repository.UpdateUserAsync(user.Id, userDto);
 
             return userDto;
         }
 
+        // JWT token generálása
         private string GenerateJwtToken(User user)
         {
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
@@ -178,6 +164,7 @@ namespace webshop_barbie.Service
             return tokenHandler.WriteToken(token);
         }
 
+        // Felhasználó bejelentkezésének ellenőrzése
         public async Task<LoginResponseDTO> ValidateLoginAsync(string email, string password)
         {
             var user = await _repository.GetByEmailAsync(email);

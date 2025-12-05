@@ -4,29 +4,16 @@ namespace webshop_barbie.Repository.Interfaces
 {
     public interface ICartRepository
     {
-        /// <summary>
-        /// Egy adott felhasználó kosarának lekérése az azonosítója alapján.
-        /// </summary>
-        /// <param name="userId">A felhasználó azonosítója.</param>
-        /// <returns>A kosár, ha létezik; különben null.</returns>
+        // Egy adott felhasználó kosarának lekérése
         Task<Cart?> GetByUserIdAsync(int userId);
 
-        /// <summary>
-        /// Új kosár hozzáadása.
-        /// </summary>
-        /// <param name="cart">A hozzáadandó kosár.</param>
+        // Új kosár hozzáadása
         Task AddAsync(Cart cart);
 
-        /// <summary>
-        /// Meglévő kosár frissítése.
-        /// </summary>
-        /// <param name="cart">A frissített kosár.</param>
+        // Meglévő kosár frissítése
         Task UpdateAsync(Cart cart);
 
-        /// <summary>
-        /// Kosár törlése.
-        /// </summary>
-        /// <param name="cart">A törlendő kosár.</param>
+        // Kosár törlése
         Task DeleteAsync(Cart cart);
     }
 }

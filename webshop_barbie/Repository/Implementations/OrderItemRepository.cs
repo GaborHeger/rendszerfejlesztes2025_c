@@ -14,6 +14,7 @@ namespace webshop_barbie.Repository
             _context = context;
         }
 
+        // A rendelés összes tételének lekérdezése rendelés ID alapján
         public async Task<IEnumerable<OrderItem>> GetByOrderIdAsync(int orderId)
         {
             return await _context.OrderItems
@@ -21,6 +22,7 @@ namespace webshop_barbie.Repository
                 .ToListAsync();
         }
 
+        // Új rendelés tétel hozzáadása
         public async Task AddAsync(OrderItem orderItem)
         {
             await _context.OrderItems.AddAsync(orderItem);

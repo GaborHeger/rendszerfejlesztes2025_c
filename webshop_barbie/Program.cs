@@ -4,6 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using webshop_barbie.Data;
+using webshop_barbie.Data.SeedData;
+using webshop_barbie.Data.SeedData.ProductData;
 using webshop_barbie.Repository;
 using webshop_barbie.Repository.Interfaces;
 using webshop_barbie.Service;
@@ -11,31 +13,26 @@ using webshop_barbie.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// CONTROLLEREK HOZZÁADÁSA
+// Controllerek hozzáadás
 builder.Services.AddControllers();
 
-// SWAGGER
+// Swagger dokumentáció
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ADATBÁZIS KONFIGURÁCIÓ (PostgreSQL + EF Core)
-// A DefaultConnection-t a appsettings.json-ból olvassa ki.
+// Adatbázis konfiguráció
 builder.Services.AddDbContext<WebshopContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// CORS BEÁLLÍTÁS
-// A frontend (HTML+JS localhost) így éri el a backendet.
+// Cors beállítása frontend eléréséhez
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
         builder => builder
-            .AllowAnyOrigin()   // bárhonnan jöhet kérés (fejlesztés alatt)
-            .AllowAnyMethod()   // GET, POST, PUT, DELETE
-            .AllowAnyHeader()); // bármilyen header engedélyezett
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
-
-// SERVICE ÉS REPOSITORY RÉTEGEK REGISZTRÁLÁSA
-// MUSZÁJ, különben a controllerek nem tudják őket használni.
 
 // User
 builder.Services.AddScoped<IUserService, UserService>();
@@ -119,43 +116,37 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-// AUTOMATIKUS ADATBÁZIS MIGRÁLÁS INDULÁSKOR
-// A frontend fejlesztőnek NEM kell migrációt futtatnia.
+// Adatbázis migráció és seed
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<WebshopContext>();
-    // Törli az adatbázist
+
     await db.Database.EnsureDeletedAsync();
-    // Újra létrehozza a migrációk alapján
+
     db.Database.Migrate();
-    SeedData.Initialize(db);
+
+    SeedDataRunner.SeedAll(db);
 }
 
-// FEJLESZTÉSI KÖRNYEZET – SWAGGER
+// Swagger engedélyezése
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-//Globális hibakezelő middleware
 app.UseMiddleware<webshop_barbie.Middleware.GlobalExceptionHandlerMiddleware>();
 
-//automatikusan átirányítja a HTTP kéréseket HTTPS-re
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
-// Autorizációs middlewares
 app.UseAuthorization();
 
-// CORS engedélyezése
 app.UseCors("AllowAll");
 
-// Controller végpontok engedélyezése
+app.UseStaticFiles();
+
 app.MapControllers();
 
-// Alkalmazás indítása
 app.Run();
-
-

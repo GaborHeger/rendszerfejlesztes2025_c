@@ -16,26 +16,25 @@ namespace webshop_barbie.Repository
         }
 
         // Összes termék lekérdezése
+        // IQueryable visszaadás -> a service rétegben lehet szűrni vagy DTO-ra konvertálni
         public IQueryable<Product> GetAll()
         {
-            // IQueryable visszaadás → a service-ben lehet szűrni, DTO-t konvertálni
             return _context.Products.AsQueryable();
         }
 
         // Termék lekérdezése ID alapján
+        // Ha nincs találat, visszatér null-lal
         public async Task<Product?> GetByIdAsync(int id)
         {
             return await _context.Products
-                .FirstOrDefaultAsync(p => p.Id == id); // ha nincs találat → null
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        // Stock frissítése
+        // Termék készletének frissítése
         public async Task UpdateStockAsync(Product product)
         {
-            _context.Products.Update(product); // módosítás jelzése
-            await _context.SaveChangesAsync(); // adatbázisba mentés
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
         }
     }
 }
-
-

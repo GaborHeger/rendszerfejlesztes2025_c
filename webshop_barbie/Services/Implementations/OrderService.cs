@@ -21,7 +21,8 @@ namespace webshop_barbie.Service
         private readonly ICartService _cartService;
         private readonly IProductService _productService;
 
-        public OrderService(IOrderRepository orderRepository, IUserService userService, ICartService cartService, IProductService productService)
+        public OrderService(IOrderRepository orderRepository, IUserService userService, 
+            ICartService cartService, IProductService productService)
         {
             _orderRepository = orderRepository;
             _userService = userService;
@@ -31,19 +32,17 @@ namespace webshop_barbie.Service
 
         public async Task<IEnumerable<OrderDTO>> GetOrdersByUserIdAsync(int userId)
         {
-            // Ellenőrizzük, hogy a felhasználó létezik
+            // Felhasználó ellenőrzése
             var user = await _userService.GetUserByIdAsync(userId);
             if (user == null)
                 throw new KeyNotFoundException($"A felhasználó ({userId}) nem található.");
 
-            // Lekérjük a felhasználó rendeléseit
             var orders = await _orderRepository.GetByUserIdAsync(userId);
 
             var orderDtos = new List<OrderDTO>();
 
             foreach (var order in orders)
             {
-                // Lekérjük a rendeléshez tartozó tételeket
                 var orderItems = await _orderRepository.GetByOrderIdAsync(order.Id);
 
                 var orderItemDtos = orderItems.Select(item => new OrderItemDTO
@@ -54,7 +53,6 @@ namespace webshop_barbie.Service
                     Price = item.Price
                 }).ToList();
 
-                // Összeállítjuk az OrderDTO-t
                 orderDtos.Add(new OrderDTO
                 {
                     OrderId = order.Id,
@@ -65,58 +63,81 @@ namespace webshop_barbie.Service
                     TotalAmount = order.TotalAmount,
                     Items = orderItemDtos
                 });
-                throw new NotImplementedException();
             }
 
             return orderDtos;
         }
 
-        public async Task<OrderDTO> CreateOrderAsync(int userId, OrderRequestDTO orderRequestDTO)
+        public async Task ValidateOrderAsync(int userId, OrderRequestDTO orderRequestDTO)
         {
-            //Felhasználó ellenőrzése
-            var user = await _userService.GetUserByIdAsync(userId);
-            if (user == null)
+            // Ellenőrizzük, hogy a felhasználó létezik
+            var userInput = await _userService.GetUserByIdAsync(userId);
+            if (userInput == null)
                 throw new KeyNotFoundException($"A felhasználó nem található.");
 
-            //kosár lekérése
+            // A felhasználó személyes adatai kötelezőek
+            if (userInput == null)
+                throw new KeyNotFoundException("A felhasználó nem található.");
+
+            if (string.IsNullOrWhiteSpace(userInput.FirstName))
+                throw new ArgumentException("A keresztnév hiányzik.");
+
+            if (string.IsNullOrWhiteSpace(userInput.LastName))
+                throw new ArgumentException("A vezetéknév hiányzik.");
+
+            if (string.IsNullOrWhiteSpace(userInput.PhoneNumber))
+                throw new ArgumentException("A telefonszám hiányzik.");
+
+            if (string.IsNullOrWhiteSpace(userInput.PostalCode))
+                throw new ArgumentException("A irányítószám hiányzik.");
+
+            if (string.IsNullOrWhiteSpace(userInput.City))
+                throw new ArgumentException("A város hiányzik.");
+
+            if (string.IsNullOrWhiteSpace(userInput.AddressDetails))
+                throw new ArgumentException("A cím részletei hiányzik.");
+
+            // A felhasználónak el kell fogadnia a felhasználási feltételeket
+            if (!userInput.AcceptedTerms)
+                throw new ArgumentException("A felhasználási feltételek elfogadása kötelező.");
+
+            // Ellenőrizzük a szállítási és fizetési módok érvényességét
+            if (!Enum.IsDefined(typeof(ShippingMethod), orderRequestDTO.ShippingMethod))
+                throw new ArgumentException("Érvénytelen szállítási mód.");
+
+            if (!Enum.IsDefined(typeof(PaymentMethod), orderRequestDTO.PaymentMethod))
+                throw new ArgumentException("Érvénytelen fizetési mód.");
+
+            // Ellenőrizzük, hogy a kosár ne legyen üres
             var cart = await _cartService.GetCartByUserIdAsync(userId);
-            //Any() megnézi, hogy a collection tartalmaz-e legalább 1 elemet
             if (cart == null || !cart.Items.Any())
                 throw new InvalidOperationException("A kosár üres, nem lehet rendelést létrehozni.");
 
-            var updateUserRequestDTO = new UpdateUserRequestDTO
+            foreach (var cartItem in cart.Items)
             {
-                Id = userId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
-                PostalCode = user.PostalCode,
-                City = user.City,
-                AddressDetails = user.AddressDetails,
-                SubscribedToNewsletter = user.SubscribedToNewsletter,
-                AcceptedTerms = user.AcceptedTerms,
-            };
-            var userData = await _userService.UpdateUserAsync(updateUserRequestDTO);
-            if (string.IsNullOrWhiteSpace(user.FirstName) ||
-                string.IsNullOrWhiteSpace(user.LastName) ||
-                string.IsNullOrWhiteSpace(user.PhoneNumber) ||
-                string.IsNullOrWhiteSpace(user.PostalCode) ||
-                string.IsNullOrWhiteSpace(user.City) ||
-                string.IsNullOrWhiteSpace(user.AddressDetails) ||
-                user.SubscribedToNewsletter == null ||  // fontos, hogy ne legyen null
-                !user.AcceptedTerms)                     // kötelező elfogadni
-                    {
-                        throw new InvalidOperationException("A rendeléshez minden kötelező adatot ki kell tölteni, és el kell fogadni a felhasználási feltételeket.");
-                    }
+                // Mennyiség nem lehet nulla vagy negatív
+                if (cartItem.Quantity <= 0)
+                    throw new InvalidOperationException($"A {cartItem.ProductName ?? cartItem.ProductId.ToString()} mennyisége nem lehet nulla vagy negatív.");
 
-            foreach(var cartItem in cart.Items)
-            {
+                // Ár nem lehet negatív
+                if (cartItem.Price < 0)
+                    throw new InvalidOperationException($"A {cartItem.ProductName ?? cartItem.ProductId.ToString()} ára nem lehet negatív.");
+
+                // Ellenőrizzük a készletet a rendelés leadása előtt
                 var stock = await _productService.CheckStockAsync(cartItem.ProductId, cartItem.Quantity);
-                if(!stock.IsAvailable)
+                if (!stock.IsAvailable)
                     throw new ArgumentOutOfRangeException($"Valamely termékből nincs elég készleten.");
             }
+        }
 
-            //Order létrehozása
+        public async Task<OrderDTO> CreateOrderAsync(int userId, OrderRequestDTO orderRequestDTO)
+        {
+            // Ellenőrizzük, hogy a felhasználó azonosító érvényes
+            if (userId <= 0)
+                throw new ArgumentException("A rendeléshez nem tartozik érvényes felhasználó.");
+
+            await ValidateOrderAsync(userId, orderRequestDTO);
+
             var order = new Order
             {
                 UserId = userId,
@@ -125,8 +146,9 @@ namespace webshop_barbie.Service
                 ShippingFee = orderRequestDTO.ShippingMethod == ShippingMethod.PickupInStore ? 0m : 1500m,
                 OrderItems = new List<OrderItem>()
             };
-            
-            //cartItem-ek átkonvertálása OrderItem-re
+
+            var cart = await _cartService.GetCartByUserIdAsync(userId);
+
             foreach (var cartItem in cart.Items)
             {
                 order.OrderItems.Add(new OrderItem
@@ -140,32 +162,12 @@ namespace webshop_barbie.Service
             // TotalAmount kiszámítása
             order.TotalAmount = order.OrderItems.Sum(oi => oi.Price * oi.Quantity) + (order.ShippingFee ?? 0);
 
-            try
-            {
-                await _productService.DecreaseStockAsync(order);
-            } 
-            catch(Exception ex)
-            {
-                Console.WriteLine("Stock csökkentés hiba: " + ex.Message);
-                throw;
-            }
+            await _productService.DecreaseStockAsync(order);
 
-            //rendelés mentés az adatbázisba
-            try
-            {
-                await _orderRepository.AddAsync(order);
-            }
-            catch (DbUpdateException ex)
-            {
-                Console.WriteLine("Order mentés DB hiba: " + ex.Message);
-                Console.WriteLine("InnerException: " + ex.InnerException?.Message);
-                throw;
-            }
+            await _orderRepository.AddAsync(order);
 
-            //kosár ürítése a rendelés leadása után
             await _cartService.ClearCartAsync(userId);
 
-            //DTO összeállítása visszaadásra
             var orderDto = new OrderDTO
             {
                 OrderId = order.Id,
@@ -182,7 +184,6 @@ namespace webshop_barbie.Service
                     Price = oi.Price
                 }).ToList()
             };
-
             return orderDto;
         }
     }

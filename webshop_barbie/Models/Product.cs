@@ -11,14 +11,14 @@ namespace webshop_barbie.Models
         public string ProductName { get; set; } = "";
 
         [Required]
-        [Range(0.0, double.MaxValue, ErrorMessage = "Price cannot be negative")]
+        [Range(0.0, double.MaxValue, ErrorMessage = "Az ár nem lehet negatív!")]
         public decimal Price { get; set; }
 
         [Required]
         public string ImageUrl { get; set; } = "";
 
         [Required]
-        [Range(0, int.MaxValue, ErrorMessage = "Stock cannot be negative")]
+        [Range(0, int.MaxValue, ErrorMessage = "Nem lehet negatív mennyiségű a készlet!")]
         public int Stock {  get; set; }
 
         public Category Category { get; set; }

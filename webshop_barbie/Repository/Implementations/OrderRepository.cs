@@ -15,12 +15,8 @@ namespace webshop_barbie.Repository
             _context = context;
         }
 
-        public async Task<string> PlaceOrder(OrderRequestDTO orderRequest, int userId)
-        {
-            await Task.Delay(100); // szimulál egy aszinkron műveletet
-            return "Order placed successfully!";
-        }
-
+        // Az összes rendelés lekérdezése adott felhasználóhoz
+        // Tartalmazza a rendelés tételeit és azok termékeit
         public async Task<IEnumerable<Order>> GetByUserIdAsync(int userId)
         {
             return await _context.Orders
@@ -30,20 +26,24 @@ namespace webshop_barbie.Repository
                 .ToListAsync();
         }
 
+        // Egy rendelés összes tételének lekérdezése rendelés ID alapján
+        // Betölti a termék adatait is
         public async Task<IEnumerable<OrderItem>> GetByOrderIdAsync(int orderId)
         {
             return await _context.OrderItems
-                .Include(oi => oi.Product) //Product adatokat is betölti
+                .Include(oi => oi.Product)
                 .Where(oi => oi.OrderId == orderId)
                 .ToListAsync();
         }
 
+        // Új rendelés hozzáadása
         public async Task AddAsync(Order order)
         {
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
         }
 
+        // Rendelés törlése felhasználó és rendelés ID alapján
         public async Task DeleteAsync(Order order)
         {
             var existingOrder = await _context.Orders

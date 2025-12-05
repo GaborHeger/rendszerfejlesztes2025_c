@@ -5,35 +5,16 @@ namespace webshop_barbie.Service.Interfaces
 {
     public interface IFavoriteService
     {
-        /// <summary>
-        /// Egy adott felhasználó összes kedvenc termékének lekérése.
-        /// </summary>
-        /// <param name="userId">A felhasználó azonosítója.</param>
-        /// <returns>A kedvenc termékeket tartalmazó FavoriteDTO lista.</returns>
+        // Lekéri egy felhasználó összes kedvenc termékét
         Task<IEnumerable<FavoriteDTO>> GetFavoritesByUserIdAsync(int userId);
 
-        /// <summary>
-        /// Termék hozzáadása a felhasználó kedvenceihez.
-        /// </summary>
-        /// <param name="userId">A felhasználó azonosítója.</param>
-        /// <param name="productId">A hozzáadandó termék azonosítója.</param>
-        /// <returns>Üzenet a sikeres vagy sikertelen műveletről.</returns>
+        // Hozzáad egy terméket a kedvencekhez
         Task<string> AddFavoriteAsync(int userId, int productId);
 
-        /// <summary>
-        /// Termék eltávolítása a felhasználó kedvenceiből.
-        /// </summary>
-        /// <param name="userId">A felhasználó azonosítója.</param>
-        /// <param name="productId">Az eltávolítandó termék azonosítója.</param>
-        /// <returns>Üzenet a sikeres vagy sikertelen műveletről.</returns>
+        // Eltávolít egy terméket a kedvencekből
         Task<string> RemoveFavoriteAsync(int userId, int productId);
 
-        /// <summary>
-        /// Kedvenc termék áthelyezése a felhasználó kosarába.
-        /// </summary>
-        /// <param name="userId">A felhasználó azonosítója.</param>
-        /// <param name="productId">A kosárba helyezendő termék azonosítója.</param>
-        /// <returns>A frissített CartDTO.</returns>
+        // Kedvenc terméket áthelyez a kosárba
         Task<CartDTO> AddFavoriteToCartAsync(int userId, int productId);
     }
 }

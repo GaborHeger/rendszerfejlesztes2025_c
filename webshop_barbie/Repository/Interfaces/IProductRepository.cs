@@ -5,23 +5,13 @@ namespace webshop_barbie.Repository.Interfaces
 {
     public interface IProductRepository
     {
-        /// <summary>
-        /// Az összes termék lekérése.
-        /// A service felel a szűrésért és DTO konverzióért.
-        /// </summary>
+        // Összes termék lekérése (szűrés és DTO konverzió a service-ben)
         IQueryable<Product> GetAll();
 
-        /// <summary>
-        /// Egy termék lekérése az egyedi azonosítója alapján.
-        /// </summary>
-        /// <param name="id">A termék azonosítója.</param>
-        /// <returns>A termék, ha létezik; különben null.</returns>
+        // Termék lekérése ID alapján
         Task<Product?> GetByIdAsync(int id);
 
-        /// <summary>
-        /// Egy termék mentése / készlet frissítése.
-        /// </summary>
-        /// <param name="product">A módosított termék entitás.</param>
+        // Termék mentése és a készlet frissítése
         Task UpdateStockAsync(Product product);
     }
 }
