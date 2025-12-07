@@ -139,11 +139,11 @@ app.UseMiddleware<webshop_barbie.Middleware.GlobalExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAll");
+
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.UseCors("AllowAll");
 
 app.UseStaticFiles();
 
