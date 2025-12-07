@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="user.png">
+    <link rel="stylesheet" href="regist.css">
+    <title>Regisztrálás</title>
+</head>
+<body>
+    <div id="main">
+        <div id="regist">Regisztrálás</div>
+        <form id="regForm">
+            <legend>E-mail cím</legend>
+            <input type="email" class="in" id="email" autocomplete="email">
+            <legend>Vezetéknév</legend>
+            <input type="text" class="in" id="lastName" autocomplete="family-name">
+            <legend>Keresztnév</legend>
+            <input type="text" class="in" id="firstName" autocomplete="given-name">
+            <legend>Jelszó</legend>
+            <input type="password" class="in" id="pw" autocomplete="new-password">
+            <img src="eye.png" alt="eye" id="eye">
+            <legend>Jelszó mégegyszer</legend>
+            <input type="password" class="in" id="pw2" autocomplete="new-password">
+            <img src="eye.png" alt="eye" id="eye2">
+            <input type="checkbox" id="c1" class="ch">   
+            <label for="c1" class="lbl">Általános Szerződése Feltételek elfogadása.*</label><br>
+            <input type="checkbox" id="c2" class="ch">   
+            <label for="c2" class="lbl">Feliratkozas a hírlapra.</label>
+        </form>
+
+        <button id="submitBtn">Regisztrálj!</button>  
+        <!--<div id="login">Van  már fiókod? <a href="login.html">Lépj be!</a></div>-->
+    </div>
+    <div id="back">
+        <a href="profile.html"><img src="arrow.png" alt="nyil"></a>
+    </div>
+<script type="module" src="regist.js"></script>
+</body>
+</html>

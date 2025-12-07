@@ -1,0 +1,251 @@
+body{
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    background-color: rgb(251, 171, 221);
+}
+
+#header{
+    width: 100%;
+    height: 120px;
+    background-color: rgba(247, 20, 162);
+    display: flex; 
+    justify-content: space-around;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+  body {
+    width: 100%;
+    font-size: 14px;
+  }
+
+}
+
+#logo{
+    width: 250px;
+    height: 90px;
+    position: relative;
+}
+
+
+.ws{
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    font-style: italic;
+}
+
+#l{
+    width: 150px;
+}
+
+#l:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+a{
+    text-decoration: none;
+}
+
+#back{
+    width: 55px;
+    height: 50px;
+
+    /*position: absolute;*/
+    border-radius: 10px;
+    /*top: 0;
+    left: 0;*/
+    margin: 5px;
+}
+
+#back:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+.name{
+    /*border: 1px solid black;*/
+    width: 800px;
+    height: 50px;
+    margin: auto;
+    margin-bottom: 1%;
+    margin-top: 2%;
+    position: relative;
+    background-color: rgba(247, 20, 162);
+    /*box-shadow: 1px 1px 5px rgba(247, 20, 162);*/
+    border-radius: 30px;
+}
+
+#name{
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    padding: 5px;
+    margin-left: 50px;
+}
+
+.adatok{
+    /*border: 1px solid black;*/
+    width: 800px;
+    height: 450px;
+    margin: auto;
+    position: relative;
+    background-color: rgba(247, 20, 162);
+    /*box-shadow: 1px 1px 5px rgba(247, 20, 162);*/
+    border-radius: 30px;
+}
+
+form{
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 22px;
+    padding: 5px;
+    margin-left: 50px;
+}
+
+#leg{
+    font-size: 30px;
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+
+.contents{
+    position: absolute;
+    /*border: 3px solid black;*/
+    display: flexbox;
+    width: 100%;
+    height: 100%;
+    /*margin-left: 10%;*/
+}
+
+#eye{
+    width: 30px;
+    height: 30px;
+    margin-left: 35px;
+    position: absolute;
+}
+
+#eye:hover{
+    cursor: pointer;
+}
+
+.in{
+    width: 380px;
+    height: 22px;
+    border-radius: 10px;
+    margin-bottom: 2%;
+    border-color: white;
+}
+
+#pen1, #pen2, #pen3, #pen4{
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    position: absolute;
+}
+
+#pen1, #pen2, #pen3, #pen4:hover{
+    cursor: pointer;
+}
+
+button{
+    margin-left: 45%;
+    margin-top: 1%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    background-color: white;
+    color: rgba(247, 20, 162);
+    font-weight: bold;
+    font-size: 15px;
+    border-color: white;
+    cursor: pointer;
+    /*margin-top: 20px;*/
+}
+
+button:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+@media (max-width: 1160px) {
+    .adatok, .name{
+        width: 800px;
+        margin-left: 15%;
+    }
+}
+
+@media (max-width: 950px) {
+    .adatok, .name{
+        width: 700px;
+        margin-left: 12%;
+    }
+
+    .name{
+        margin-top: 5%;
+    }
+
+    .adatok{
+        height: 420px;
+    }
+}
+
+@media (max-width: 800px) {
+    .adatok, .name{
+        width: 600px;
+        margin-left: 10%;
+    }
+
+    .name{
+        margin-top: 6%;
+    }
+
+    .adatok{
+        height: 410px;
+    }
+}
+
+@media (max-width: 670px) {
+    .adatok, .name{
+        width: 540px;
+        margin-left: 6%;
+    }
+
+    .name{
+        margin-top: 8%;
+    }
+
+    .in{
+        width: 360px;
+    }
+
+    .adatok{
+        height: 400px;
+    }
+}
+
+@media (max-width: 550px) {
+    .adatok, .name{
+        width: 480px;
+        margin-left: 1%;
+    }
+
+    .name{
+        margin-top: 10%;
+    }
+
+    .in{
+        width: 360px;
+    }
+
+    .adatok{
+        height: 400px;
+    }
+
+    form{
+        margin-left: 20px;
+    }
+}

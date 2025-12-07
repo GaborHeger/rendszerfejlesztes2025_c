@@ -1,0 +1,134 @@
+body{
+    background-image: url(loginbg.jpg);
+}
+
+@media (max-width: 600px) {
+  body {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+#main{
+    height: 300px;
+    width: 600px;
+    background-color: rgb(255, 186, 231);
+    margin: auto;
+    border-radius: 60px;
+    margin-top: 14%;
+    box-shadow: 1px 1px 10px grey;
+}
+
+#prof{
+    width: 150px;
+    height: 150px;
+    margin-top: 80px;
+    margin-left: 80px;
+}
+
+#profdiv{
+    /*border: 3px solid black;*/
+    width: 300px;
+    height: 300px;
+    position: absolute;
+}
+#bdiv{
+    /*border: 3px solid black;*/
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    margin-left: 300px;
+}
+
+#log{
+    /*border: 3px solid black;*/
+    border-radius: 10px;
+    background-color: rgba(247, 20, 162);
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    margin-top: 90px;
+    margin-left: 60px;
+    position: absolute;
+    padding: 10px;
+    border-color:  rgba(247, 20, 162);
+}
+
+#reg{
+    border-color:  rgba(247, 20, 162);
+    border-radius: 10px;
+    background-color: rgba(247, 20, 162);
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    margin-top: 150px;
+    margin-left: 40px;
+    position: absolute;
+    padding: 10px;
+}
+#back{
+    width: 55px;
+    height: 50px;
+    /*background-color: white;*/
+    position: absolute;
+    border-radius: 10px;
+    top: 0;
+    left: 0;
+    margin: 5px;
+    /*box-shadow: 1px 1px 10px grey;*/
+}
+
+#log:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+#reg:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+#back:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+a{
+    text-decoration: none;
+}
+
+@media (max-width: 1050px) {
+  #main{
+    width: 500px;
+    margin-top: 20%;
+  }
+  #bdiv{
+    margin-left: 280px;
+  }
+}
+
+@media (max-width: 750px) {
+  #main{
+    width: 500px;
+    margin-top: 25%;
+  }
+  #bdiv{
+    margin-left: 280px;
+  }
+}
+
+@media (max-width: 550px) {
+  #main{
+    width: 480px;
+    margin-top: 30%;
+    margin-left: 1%;
+  }
+
+  #bdiv{
+    margin-left: 250px;
+  }
+}

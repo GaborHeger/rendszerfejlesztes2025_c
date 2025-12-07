@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="cart.png">
+    <link rel="stylesheet" href="order.css">
+    <title>Rendelés</title>
+</head>
+<body>
+    <div id="main">
+        <div id="title">Rendelés</div>
+        <form action="">
+            <legend>E-mail cím</legend>
+            <input type="email" class="in" id="email" autocomplete="email">
+            <legend>Vezetéknév</legend>
+            <input type="text" class="in" id="lastName" autocomplete="family-name">
+            <legend>Keresztnév</legend>
+            <input type="text" class="in" id="firstName" autocomplete="given-name">
+            <legend>Telefonszám</legend>
+            <input type="text" class="in" id="tel">
+            <legend>Irányítószám</legend>
+            <input type="text" class="in" id="postnum">
+            <legend>Város</legend>
+            <input type="text" class="in" id="city">
+            <legend>Szállítási cím</legend>
+            <input type="text" class="in" id="address">
+            <div id="myalert">
+                <p>Rendelés sikeresen elküldve!</p>
+                <button id="ok">OK</button>
+            </div>
+            <p>Fizetés módja:</p>
+            <input type="checkbox" id="c1" value="online" class="ch">
+            <label for="c1" class="lbl">Online fizetés bankkártyavál</label> <br>
+            <input type="checkbox" id="c2" value="utanvet" class="ch">
+            <label for="c2" class="lbl">Utánvételes fizetés</label>
+            <p>Szállítás módja:</p>
+            <input type="checkbox" id="c3" value="aruhaz" class="ch">
+            <label for="c3" class="lbl">Átvétel az áruházban</label> <br>
+            <input type="checkbox" id="c4" value="hazhoz" class="ch">
+            <label for="c4" class="lbl">Házhoz szállítás (+ 1500Ft)</label>
+            <p></p>
+            <input type="submit" value="Megrendelés elküldése" id="sub">
+        </form>
+    </div>
+
+
+    <div id="back">
+        <a href="cart.html"><img src="arrow.png" alt="nyil"></a>
+    </div>
+<script type="module" src="order.js"></script>
+</body>
+</html>

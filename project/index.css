@@ -1,0 +1,408 @@
+body{
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+#header{
+    width: 100%;
+    height: 120px;
+    background-color: rgba(247, 20, 162);
+    display: flex; 
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+#logo{
+    width: 250px;
+    height: 90px;
+    position: relative;
+}
+
+#cart:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+#prof:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+#prof{
+    width: 60px;
+    height: 60px;
+    position: relative;
+    /*border: 3px solid black;*/
+
+}
+
+#cart{
+    width: 60px;
+    height: 60px;
+    position: relative;
+    /*border: 3px solid black;*/
+}
+
+#icons{
+    /*border: 3px solid black;*/
+    width: 160px;
+    display: flex; 
+    justify-content: space-around;
+}
+
+#menu{
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+
+#menu:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+.leftside{
+    width: 220px;
+    height: 180px;
+    background-color: rgba(247, 20, 162);
+    transition-timing-function: linear;
+    border-bottom-right-radius: 40px;
+    /*border-bottom-left-radius: 20px;
+    box-shadow: 1px 1px 10px rgba(247, 20, 162);*/
+    position: absolute;
+}
+
+
+#categ{
+    font-size: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    color: white;
+    padding: 30px;
+}
+
+#categ > p{
+    margin: 0;
+    font-size: 25px;
+    font-weight: lighter;
+    margin-left: 20px;
+    /*padding: 10px;*/
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;  
+    cursor: pointer;
+}
+
+#categ >h1{
+    font-size: 25px;
+    margin: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#ws{
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    font-style: italic;
+}
+
+/*#categ2{
+    font-size: 25px;
+    font-weight: lighter;
+    margin-left: 20px;
+    padding: 10px;
+}*/
+
+.Barbie, .Accessory{
+    border: 2px solid white;
+    /*width: 50px;
+    height: 50px;*/
+    visibility: visible;
+    position: relative;
+    width: 860px;
+    height: 230px;
+    /*margin-left: 20%;*/
+    margin: auto;
+    margin-bottom: 2%;
+    margin-top: 2%;
+    display: flex;
+    border-radius: 30px;
+    background-color: white;
+}
+
+/*.kieg{
+    border: 3px solid green;
+    /*width: 50px;
+    height: 50px;
+    visibility: visible;
+    position: relative;
+    width: 860px;
+    height: 285px;
+    margin-left: 20%;
+    margin-bottom: 5%;
+    margin-top: 2%;
+    display: flex;
+}*/
+
+.pic{
+    border: 1px solid white;
+    width: 200px;
+    height: 200px;
+    margin: 15px;
+}
+
+#ph{
+    width: 200px;
+    height: 200px;
+}
+
+.prodname{
+    /*border: 1px solid black;*/
+    width: 550px;
+    height: 50px;
+    margin-top: 15px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: rgba(247, 20, 162);
+}
+
+/*.proddiscr{
+    /*border: 1px solid black;
+    width: 550px;
+    height: 150px;
+    margin-top: 10px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 22px;
+    color: rgba(247, 20, 162);
+}*/
+
+.prodprize{
+  /*border: 1px solid black;*/
+  width: 150px;
+  height: 40px;
+  margin-top: 14%;
+  float: right;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 30px;
+  padding-top: 10px;
+  font-weight: bold;
+  color: rgba(247, 20, 162);
+}
+
+.cart{
+
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-top: 145px;
+    background-color:rgba(247, 20, 162);
+}
+
+.putcart{
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+}
+
+.cart:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
+
+#categ2 > p{
+    margin: 0;
+    cursor: pointer;
+}
+
+.contents{
+    position: absolute;
+    /*border: 3px solid black;*/
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /*height: 100%;*/
+    /*margin-left: 10%;*/
+    /*background-color: pink;*/
+     background-color: rgb(241, 129, 200);
+}
+
+#osszes:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+#babak:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+#kiegeszitok:hover{
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+@media (max-width: 1200px) {
+  body {
+    width: 100%;
+    font-size: 14px;
+  }
+  /*.proddiscr {
+    width: 520px;
+    height: 180px;
+  }*/
+  .prodname{
+    width: 520px;
+    height: 56px;
+  }
+  .pic, #ph{
+    width: 180px;
+    height: 180px;
+  }
+
+  .Barbie, .Accessory{
+    width: 820px;
+    height: 220px;
+    margin-left: 12%;
+  }
+
+  .cart{
+    margin-top: 150px;
+  }
+
+}
+
+@media (max-width: 970px) {
+
+  .Barbie, .Accessory{
+    margin-left: 6%;
+  }
+
+}
+
+@media (max-width: 870px) {
+
+  .Barbie, .Accessory{
+    margin-left: 2%;
+  }
+
+}
+
+@media (max-width: 840px) {
+
+    /*.proddiscr {
+    width: 430px;
+    height: 220px;
+  }*/
+  .prodname{
+    width: 430px;
+    height: 80px;
+  }
+
+  .Barbie, .Accessory{
+    width: 700px;
+    height: 240px;
+    margin-left: 4%;
+  }
+
+  .cart{
+    margin-top: 158px;
+    margin-left: 90%;
+    position: absolute;
+    /*width: 80px;
+    height: 80px;*/
+  }
+
+  /*.putcart{
+    width: 50px;
+    height: 50px;
+    margin: 15px;
+  }*/
+
+}
+
+@media (max-width: 750px) {
+
+   /* .proddiscr {
+    width: 360px;
+    height: 280px;
+  }*/
+  .prodname{
+    width: 360px;
+    height: 80px;
+  }
+
+  .Barbie, .Accessory{
+    width: 560px;
+    height: 220px;
+    margin-left: 4%;
+  }
+
+  .cart{
+    margin-top: 150px;
+    margin-left: 85%;
+    position: absolute;
+  }
+
+  .pic, #ph{
+    width: 150px;
+    height: 150px;
+  }
+
+  .prodprize{
+    margin-right: 15%;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+   /* .proddiscr {
+    width: 320px;
+    height: 280px;
+  }*/
+  .prodname{
+    width: 320px;
+    height: 80px;
+  }
+
+  .Barbie, .Accessory{
+    width: 510px;
+    height: 220px;
+    margin-left: 4%;
+  }
+  .prodprize{
+    margin-right: 16%;
+  }
+}
+
+  
+@media (max-width: 550px) {
+
+   /* .proddiscr {
+    width: 280px;
+    height: 290px;
+  }*/
+  .prodname{
+    width: 280px;
+    height: 90px;
+  }
+
+  .Barbie, .Accessory{
+    width: 470px;
+    height: 250px;
+    margin-left: 1%;
+  }
+
+  .cart{
+    margin-top: 150px;
+    margin-left: 85%;
+    position: absolute;
+  }
+
+  .pic, #ph{
+    width: 140px;
+    height: 140px;
+  }
+}

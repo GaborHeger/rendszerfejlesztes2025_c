@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="user.png">
+    <link rel="stylesheet" href="profadatok.css">
+    <title>Profile</title>
+</head>
+<body>
+     <div id="header">
+        <a href="index.html"><img src="arrow.png" alt="nyil" id="back"></a>
+        <div class="ws">
+            <img src="barbie-logo2.png" id="logo" alt="barbie logo">
+            WebShop
+        </div>
+        <div id="logout">
+             <button id="l">Kijelentkezés</button>
+        </div>
+    </div>
+    <div id="contents">
+        <div class="name">
+            <div id="name">Üdvözöllek (name)!</div>
+        </div>
+        <div class="adatok">
+            <form>
+                <legend id="leg">Adatok módosítása:</legend>
+                <legend>Telefonszám</legend>
+                <input type="text" class="in" readonly id="tel">
+                <img src="pen.png" alt="pen" id="pen1">
+                <legend>Irányítószám</legend>
+                <input type="text" class="in" readonly id="postnum">
+                <img src="pen.png" alt="pen" id="pen2">
+                <legend>Város</legend>
+                <input type="text" class="in" readonly id="city">
+                <img src="pen.png" alt="pen" id="pen3">
+                <legend>Szállítási cím</legend>
+                <input type="text" class="in" readonly id="address">
+                <img src="pen.png" alt="pen" id="pen4">
+            </form>
+            <button>Mentés</button>
+        </div>
+    </div>
+<script type="module" src="profadatok.js"></script>
+</body>
+</html>
